@@ -37,5 +37,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: CraftingRevisions_nupkg
-        path: ./CraftingRevisions/bin/Release/ds5678.Modding.TLD.CraftingRefivions.2.0.0.nupkg
+        path: ./CraftingRevisions/bin/Release/*.nupkg
         if-no-files-found: error

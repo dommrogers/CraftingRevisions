@@ -28,8 +28,8 @@
 	<PropertyGroup>
 		<Authors>ds5678</Authors>
 		<Version>2.0.0.0</Version>
-		<AssemblyVersion>2.0.0.0</AssemblyVersion>
-		<PackageId>ds5678.Modding.TLD.CraftingRefivions</PackageId>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<PackageId>ds5678.Modding.TLD.CraftingRevisions</PackageId>
 		<PackageTags>MelonLoader Modding TLD Json Blueprint Crafting Utility Mod</PackageTags>
 		<RepositoryUrl>https://github.com/ds5678/CraftingRevisions</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -46,7 +46,7 @@
 	<!--This is the of packages that the mod references.-->
 	<ItemGroup>
 		<!--This package contains almost everything a person could possibly need to reference while modding.-->
-		<PackageReference Include="ds5678.Modding.TLD.Il2CppAssemblies.Windows" Version="2.6.0" />
+		<PackageReference Include="ds5678.Modding.TLD.Il2CppAssemblies.Windows" Version="2.7.0" />
 		<PackageReference Include="ds5678.Modding.TLD.ModSettings" Version="1.9.0" />
 		<!--The package version here in this template may be outdated and need to be updated. Visual Studio can update package versions automatically.-->
 		<!--If the mod references any other mods (such as ModSettings), that NuGet package will also need to be listed here.-->
