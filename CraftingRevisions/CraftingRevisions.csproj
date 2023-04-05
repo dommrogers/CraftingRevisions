@@ -27,7 +27,7 @@
 	<!--This is for NuGet.-->
 	<PropertyGroup>
 		<Authors>STBlade</Authors>
-		<Version>2.0.0.0</Version>
+		<Version>2.0.1.0</Version>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<PackageId>STBlade.Modding.TLD.CraftingRevisions</PackageId>
 		<PackageTags>MelonLoader Modding TLD Json Blueprint Crafting Utility Mod</PackageTags>

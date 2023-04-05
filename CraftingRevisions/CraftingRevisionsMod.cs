@@ -1,5 +1,6 @@
 ﻿using MelonLoader;
-
+using UnityEngine;
+using Il2CppTLD.AddressableAssets;
 namespace CraftingRevisions
 {
 	internal class CraftingRevisionsMod : MelonMod

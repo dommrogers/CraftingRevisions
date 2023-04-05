@@ -2,6 +2,8 @@
 using Il2Cpp;
 using Il2CppTLD.Gear;
 using MelonLoader;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CraftingRevisions.CraftingMenu
 {
@@ -86,6 +88,27 @@ namespace CraftingRevisions.CraftingMenu
 					int maxGunpowderUnits = (int)(GameManager.GetPlayerManagerComponent().GetTotalPowderWeight(GearPowderType.Gunpowder) / gunpowderNeeded);
 					if (__instance.m_Maximum > maxGunpowderUnits) __instance.m_Maximum = maxGunpowderUnits;
 				}
+			}
+		}
+
+
+		[HarmonyPatch(typeof(BlueprintDisplayItem), nameof(BlueprintDisplayItem.Setup), new Type[] { typeof(Panel_Crafting), typeof(BlueprintData) })]
+		internal static class BlueprintDisplayItem_Setup
+		{
+			private static void Prefix(BlueprintDisplayItem __instance, Panel_Crafting panel, BlueprintData bpi, ref bool __runOriginal)
+			{
+				__runOriginal = false;
+
+				__instance.m_BlueprintData= bpi;
+				__instance.m_CanCraftBlueprint = panel.CanCraftBlueprint(bpi);
+				string text = bpi.m_CraftedResult.name.Replace("GEAR_", "ico_CraftItem__");
+				__instance.m_Icon.mainTexture = Addressables.LoadAssetAsync<Texture2D>(text).WaitForCompletion();
+				__instance.m_Icon.enabled = true;
+				__instance.m_DisplayName.text = bpi.GetDisplayedNameWithCount();
+				__instance.m_Available.enabled = __instance.m_CanCraftBlueprint;
+				__instance.m_Unavailable.enabled = !__instance.m_CanCraftBlueprint;
+				__instance.m_Background.color = __instance.m_Normal;
+				__instance.m_Root.color = Utils.GetColorWithAlpha(__instance.m_Root.color, __instance.m_CanCraftBlueprint ? 1f : __instance.m_Disabled.a);
 			}
 		}
 	}
