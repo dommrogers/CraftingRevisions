@@ -50,9 +50,16 @@ namespace CraftingRevisions.CraftingMenu
 		{
 			private static void Postfix(Panel_Crafting __instance)
 			{
-				CraftingCategoryNavigation categoryNavigation = __instance.m_CategoryNavigation;
+				CategoryButtonNavigation categoryNavigation = __instance.m_CategoryNavigation;
 				var buttonList = categoryNavigation.m_NavigationButtons;
-				UIButton toolsButton = buttonList[buttonList.Count - 1];
+				UIButton toolsButton = new();
+				foreach (UIButton button in buttonList)
+				{
+					if (button.name.ToLower().Contains("tool"))
+					{
+						toolsButton = button;
+					}
+				}
 				UIButton materialButton = toolsButton.Instantiate();
 				UIButton foodButton = toolsButton.Instantiate();
 				foodButton.name = "Button_Food";
@@ -83,11 +90,11 @@ namespace CraftingRevisions.CraftingMenu
 					int maxKeroseneUnits = (int)(GameManager.GetPlayerManagerComponent().GetTotalLiters(GearLiquidTypeEnum.Kerosene) / keroseneNeeded);
 					if (__instance.m_Maximum > maxKeroseneUnits) __instance.m_Maximum = maxKeroseneUnits;
 				}
-				if (gunpowderNeeded > 0)
-				{
-					int maxGunpowderUnits = (int)(GameManager.GetPlayerManagerComponent().GetTotalPowderWeight(GearPowderType.Gunpowder) / gunpowderNeeded);
-					if (__instance.m_Maximum > maxGunpowderUnits) __instance.m_Maximum = maxGunpowderUnits;
-				}
+				//if (gunpowderNeeded > 0)
+				//{
+				//	int maxGunpowderUnits = (int)(GameManager.GetPlayerManagerComponent().GetTotalPowderWeight(GearPowderType.Gunpowder) / gunpowderNeeded);
+				//	if (__instance.m_Maximum > maxGunpowderUnits) __instance.m_Maximum = maxGunpowderUnits;
+				//}
 			}
 		}
 

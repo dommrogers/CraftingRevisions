@@ -46,17 +46,17 @@ namespace CraftingRevisions.CraftingMenu
 				}
 				if (InputManager.GetAltFirePressed(__instance))
 				{
-					__instance.OnInventoryNav();
+					//__instance.OnInventoryNav();
 					return;
 				}
 				if (InputManager.GetFirePressed(__instance))
 				{
 					if (InterfaceManager.IsUsingSurvivalTabs())
 					{
-						__instance.OnJournalNav();
+						//__instance.OnJournalNav();
 						return;
 					}
-					__instance.OnMissionNav();
+					//__instance.OnMissionNav();
 					return;
 				}
 				else

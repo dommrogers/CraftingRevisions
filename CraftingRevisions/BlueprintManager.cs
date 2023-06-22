@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.Text.RegularExpressions;
 
 namespace CraftingRevisions
 {
@@ -34,6 +35,12 @@ namespace CraftingRevisions
 			foreach (string jsonUserBlueprint in jsonUserBlueprints)
 			{
 				// load the blueprint into the game
+				Regex name_regex = new Regex(@"""Name"":(.*)");
+				var match = name_regex.Match(jsonUserBlueprint);
+				if (match.Success)
+				{
+					MelonLoader.MelonLogger.Msg("loading blueprint " + match.Groups[1].Value);
+				}
 				bool loaded = __instance.LoadUserBlueprint(jsonUserBlueprint);
 
 				if (!loaded)
