@@ -87,7 +87,8 @@ namespace CraftingRevisions.CraftingMenu
 				float gunpowderNeeded = bp.m_GunpowderKGRequired;
 				if (keroseneNeeded > 0)
 				{
-					int maxKeroseneUnits = (int)(GameManager.GetPlayerManagerComponent().GetTotalLiters(GearLiquidTypeEnum.Kerosene) / keroseneNeeded);
+					LiquidType kerosene = Addressables.LoadAssetAsync<LiquidType>("LIQUID_Kerosene").WaitForCompletion();
+					int maxKeroseneUnits = (int)(GameManager.GetPlayerManagerComponent().GetTotalLiters(kerosene) / keroseneNeeded);
 					if (__instance.m_Maximum > maxKeroseneUnits) __instance.m_Maximum = maxKeroseneUnits;
 				}
 				//if (gunpowderNeeded > 0)
@@ -115,7 +116,7 @@ namespace CraftingRevisions.CraftingMenu
 				__instance.m_Available.enabled = __instance.m_CanCraftBlueprint;
 				__instance.m_Unavailable.enabled = !__instance.m_CanCraftBlueprint;
 				__instance.m_Background.color = __instance.m_Normal;
-				__instance.m_Root.color = Utils.GetColorWithAlpha(__instance.m_Root.color, __instance.m_CanCraftBlueprint ? 1f : __instance.m_Disabled.a);
+				__instance.m_Root.color = Il2Cpp.Utils.GetColorWithAlpha(__instance.m_Root.color, __instance.m_CanCraftBlueprint ? 1f : __instance.m_Disabled.a);
 			}
 		}
 	}

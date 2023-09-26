@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using Il2CppTLD.Cooking;
+using Il2CppTLD.Gear;
 using System.Text.RegularExpressions;
 
 namespace CraftingRevisions
@@ -34,19 +36,19 @@ namespace CraftingRevisions
 			// loop over the items
 			foreach (string jsonUserBlueprint in jsonUserBlueprints)
 			{
-				// load the blueprint into the game
-				Regex name_regex = new Regex(@"""Name"":(.*)");
-				var match = name_regex.Match(jsonUserBlueprint);
-				if (match.Success)
-				{
-					MelonLoader.MelonLogger.Msg("loading blueprint " + match.Groups[1].Value);
-				}
-				bool loaded = __instance.LoadUserBlueprint(jsonUserBlueprint);
 
-				if (!loaded)
+
+				ModUserBlueprintData blueprint = ModUserBlueprintData.ParseFromJson(jsonUserBlueprint);
+
+				bool isValid = blueprint.Validate();
+
+				if (isValid)
 				{
-					// validate the blueprint
-					ValidateJsonBlueprint(jsonUserBlueprint);
+					BlueprintData newBlueprint = blueprint.GetBlueprintData();
+
+					// store the processed recipe
+					__instance.m_AllBlueprints.Add(newBlueprint);
+					Logger.Log("Added Blueprint " + blueprint.Name);
 				}
 			}
 		}
