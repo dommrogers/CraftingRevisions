@@ -38,17 +38,23 @@ namespace CraftingRevisions
 			{
 
 
-				ModUserBlueprintData blueprint = ModUserBlueprintData.ParseFromJson(jsonUserBlueprint);
-
-				bool isValid = blueprint.Validate();
-
-				if (isValid)
+					ModUserBlueprintData blueprint = ModUserBlueprintData.ParseFromJson(jsonUserBlueprint);
+				try
 				{
-					BlueprintData newBlueprint = blueprint.GetBlueprintData();
 
-					// store the processed recipe
-					__instance.m_AllBlueprints.Add(newBlueprint);
-					Logger.Log("Added Blueprint " + blueprint.Name);
+					bool isValid = blueprint.Validate();
+
+					if (isValid)
+					{
+						BlueprintData newBlueprint = blueprint.GetBlueprintData();
+
+						// store the processed recipe
+						__instance.m_AllBlueprints.Add(newBlueprint);
+						Logger.Log("Added Blueprint " + blueprint.Name);
+					}
+				} catch (Exception e)
+				{
+					Logger.LogError("Blueprint Exception" + blueprint.Name +"\n"+ e);
 				}
 			}
 		}

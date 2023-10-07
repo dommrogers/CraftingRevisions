@@ -51,7 +51,26 @@ namespace CraftingRevisions
 			return id;
 		}
 
-		internal static Il2CppTLD.Gear.BlueprintData.RequiredGearItem[] GetRequiredGearItems(List<ModRequiredGearItem> RequiredGear)
+		internal static ToolsItem[] GetToolsItems(List<string> items)
+		{
+			var list = new List<ToolsItem>();
+			foreach (string item in items)
+			{
+				ToolsItem ti = GetToolsItem(item);
+				list.Add(ti);
+			}
+
+			return list.ToArray();
+		}
+
+		internal static ToolsItem GetToolsItem(string item)
+		{
+			ToolsItem ti = Addressables.LoadAssetAsync<GameObject>(item).WaitForCompletion().GetComponent<ToolsItem>();
+			return ti;
+
+		}
+
+			internal static Il2CppTLD.Gear.BlueprintData.RequiredGearItem[] GetRequiredGearItems(List<ModRequiredGearItem> RequiredGear)
 		{
 			var list = new List<Il2CppTLD.Gear.BlueprintData.RequiredGearItem>();
 			foreach (ModRequiredGearItem mrgi in RequiredGear)

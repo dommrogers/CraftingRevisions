@@ -63,12 +63,16 @@ namespace CraftingRevisions
 
 		public RecipeData GetRecipeData()
 		{
+
+			AssetReferenceTexture2D ico = new AssetReferenceTexture2D(RecipeIcon);
+			ico.ReleaseAsset();
+
 			RecipeData recipe = ScriptableObject.CreateInstance<RecipeData>();
-			recipe.name = RecipeName;
+			recipe.name = "MODRECIPE_"+RecipeName;
 			recipe.m_RecipeName = new LocalizedString() { m_LocalizationID = RecipeName };
 			recipe.m_RecipeShortName = new LocalizedString() { m_LocalizationID = RecipeShortName };
 			recipe.m_RecipeDescription = new LocalizedString() { m_LocalizationID = RecipeDescription };
-			recipe.m_RecipeIcon = new AssetReferenceTexture2D(RecipeIcon);
+			recipe.m_RecipeIcon = ico;
 			recipe.m_UnlockRule = RecipeData.UnlockType.Unlocked;
 			recipe.m_RequiredSkillLevel = RequiredSkillLevel;
 			recipe.m_AllowedCookingPots = GetAllowedCookingPots();
@@ -81,7 +85,7 @@ namespace CraftingRevisions
 			ModUserRecipeBlueprintData mubd = BlueprintData;
 			BlueprintData bp = ScriptableObject.CreateInstance<BlueprintData>();
 
-			bp.name = "BP_" + RecipeName;
+			bp.name = "MOD_BLUEPRINT_" + RecipeName;
 
 			bp.m_RequiredGear = Utils.GetRequiredGearItems(BlueprintData.RequiredGear);
 			bp.m_RequiredPowder = Utils.GetRequiredPowder(BlueprintData.RequiredPowder);
@@ -91,7 +95,6 @@ namespace CraftingRevisions
 			bp.m_CraftedResultCount = mubd.CraftedResultCount;
 			bp.m_DurationMinutes = mubd.DurationMinutes;
 			bp.m_CraftingAudio = Utils.MakeAudioEvent(mubd.CraftingAudio);
-			bp.m_CraftingIcon = new AssetReferenceTexture2D(null);
 
 			bp.m_RequiresLight = false;
 			bp.m_RequiresLitFire = true;
@@ -99,7 +102,7 @@ namespace CraftingRevisions
 			bp.m_AppliedSkill = SkillType.Cooking;
 			bp.m_ImprovedSkill = SkillType.Cooking;
 
-//			bp.m_proxy = bp.GameObject();
+			bp.m_proxy = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion();
 			bp.m_CanIncreaseRepairSkill = false;
 
 

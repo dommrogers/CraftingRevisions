@@ -1,5 +1,6 @@
 ﻿using Il2Cpp;
 using Il2CppTLD.Gear;
+using MelonLoader;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -78,21 +79,19 @@ namespace CraftingRevisions
 			if (
 				(
 				RequiredGear == null
-				//&& RequiredLiquid == null
+				&& RequiredLiquid == null
 				&& RequiredPowder == null
 				)
 				||
 				(
 				RequiredGear != null && RequiredGear.Count == 0
-				//&& RequiredLiquid != null && RequiredLiquid.Count == 0
+				&& RequiredLiquid != null && RequiredLiquid.Count == 0
 				&& RequiredPowder != null && RequiredPowder.Count == 0
 				)
 				)
 			{
-				//				sb.AppendLine($"One of RequiredGear/RequiredLiquid/RequiredPowder must be defined on '{Name}'");
 				sb.AppendLine($"One of RequiredGear/RequiredPowder must be defined on '{Name}'");
 			}
-
 
 			if (RequiredGear != null && RequiredGear.Count > 0)
 			{
@@ -101,9 +100,15 @@ namespace CraftingRevisions
 				{
 					if (RequiredGearItem.Item != null)
 					{
-						if (Addressables.LoadAssetAsync<GameObject>(RequiredGearItem.Item).WaitForCompletion().GetComponent<GearItem>() == null)
+						GameObject go = Addressables.LoadAssetAsync<GameObject>(RequiredGearItem.Item).WaitForCompletion();
+						if (go == null)
 						{
-							sb.AppendLine($"RequiredGearItem[{i}].Item ({RequiredGearItem.Item}) is not a valid GearItem on '{Name}'");
+							sb.AppendLine($"RequiredGearItem[{i}].Item ({RequiredGearItem.Item}) unknown GameObject on '{Name}'");
+						}
+						GearItem gi = go.GetComponent<GearItem>();
+						if (gi == null)
+						{
+							sb.AppendLine($"RequiredGearItem[{i}].Item ({RequiredGearItem.Item}) GameObject has no GearItem component on '{Name}'");
 						}
 					}
 					if (RequiredGearItem.Item == null)
@@ -113,25 +118,25 @@ namespace CraftingRevisions
 					i++;
 				}
 			}
-			//if (RequiredLiquid != null && RequiredLiquid.Count > 0)
-			//{
-			//	int i = 0;
-			//	foreach (ModRequiredLiquid RequiredLiquidItem in RequiredLiquid)
-			//	{
-			//		if (RequiredLiquidItem.Liquid != null)
-			//		{
-			//			if (Addressables.LoadAssetAsync<LiquidType>(RequiredLiquidItem.Liquid).WaitForCompletion() == null)
-			//			{
-			//				sb.AppendLine($"RequiredLiquidItem[{i}].Liquid ({RequiredLiquidItem.Liquid}) is not a valid LiquidType on '{Name}'");
-			//			}
-			//		}
-			//		if (RequiredLiquidItem.Liquid == null)
-			//			sb.AppendLine($"RequiredLiquidItem[{i}].Liquid must be set on '{Name}'");
-			//		if (RequiredLiquidItem.VolumeInLitres < 0)
-			//			sb.AppendLine($"RequiredLiquidItem[{i}].VolumeInLitres cannot be less than 0 on '{Name}'");
-			//		i++;
-			//	}
-			//}
+			if (RequiredLiquid != null && RequiredLiquid.Count > 0)
+			{
+				int i = 0;
+				foreach (ModRequiredLiquid RequiredLiquidItem in RequiredLiquid)
+				{
+					if (RequiredLiquidItem.Liquid != null)
+					{
+						if (Addressables.LoadAssetAsync<LiquidType>(RequiredLiquidItem.Liquid).WaitForCompletion() == null)
+						{
+							sb.AppendLine($"RequiredLiquidItem[{i}].Liquid ({RequiredLiquidItem.Liquid}) unknown LiquidType on '{Name}'");
+						}
+					}
+					if (RequiredLiquidItem.Liquid == null)
+						sb.AppendLine($"RequiredLiquidItem[{i}].Liquid must be set on '{Name}'");
+					if (RequiredLiquidItem.VolumeInLitres < 0)
+						sb.AppendLine($"RequiredLiquidItem[{i}].VolumeInLitres cannot be less than 0 on '{Name}'");
+					i++;
+				}
+			}
 			if (RequiredPowder != null && RequiredPowder.Count > 0)
 			{
 				int i = 0;
@@ -141,7 +146,7 @@ namespace CraftingRevisions
 					{
 						if (Addressables.LoadAssetAsync<PowderType>(RequiredPowderItem.Powder).WaitForCompletion() == null)
 						{
-							sb.AppendLine($"RequiredPowderItem[{i}].Powder ({RequiredPowderItem.Powder}) is not a valid PowderType on '{Name}'");
+							sb.AppendLine($"RequiredPowderItem[{i}].Powder ({RequiredPowderItem.Powder}) unknown PowderType on '{Name}'");
 						}
 					}
 					if (RequiredPowderItem.Powder == null)
@@ -152,21 +157,17 @@ namespace CraftingRevisions
 				}
 			}
 
-
 			// WARNINGS
 			if (KeroseneLitersRequired != null && KeroseneLitersRequired > 0)
 			{
-				//				sbwarn.AppendLine($"KeroseneLitersRequired is obsolete, please use LiquidRequired in future blueprints '{Name}'");
+				sbwarn.AppendLine($"KeroseneLitersRequired IS deprecated, please use LiquidRequired in blueprints '{Name}'");
 			}
 
 			if (GunpowderKGRequired != null && GunpowderKGRequired > 0)
 			{
-				sbwarn.AppendLine($"GunpowderKGRequired will be deprecated, please use PowderRequired in future blueprints '{Name}'");
+				sbwarn.AppendLine($"GunpowderKGRequired IS deprecated, please use PowderRequired in blueprints '{Name}'");
 			}
-			if (RequiredLiquid != null && RequiredLiquid.Count > 0)
-			{
-				sbwarn.AppendLine($"RequiredLiquid is not implemented due to Hinterland being lazy devs '{Name}'");
-			}
+
 
 			if (sbwarn.Length > 0)
 			{
@@ -189,26 +190,26 @@ namespace CraftingRevisions
 		internal BlueprintData GetBlueprintData()
 		{
 
-			if (GunpowderKGRequired != null && GunpowderKGRequired > 0)
+			if (RequiredPowder.Count == 0 && GunpowderKGRequired != null && GunpowderKGRequired > 0)
 			{
 				RequiredPowder.Add(new ModRequiredPowder() { Powder = "POWDER_Gunpowder", QuantityInKilograms = GunpowderKGRequired ?? 0 });
 			}
-			//if (KeroseneLitersRequired!= null && KeroseneLitersRequired > 0)
-			//{
-			//	RequiredLiquid.Add(new ModRequiredLiquid(){ Liquid = "LIQUID_Kerosene", VolumeInLitres = KeroseneLitersRequired ?? 0 });
-			//}
+			if (RequiredLiquid.Count == 0 && KeroseneLitersRequired != null && KeroseneLitersRequired > 0)
+			{
+				RequiredLiquid.Add(new ModRequiredLiquid() { Liquid = "LIQUID_Kerosene", VolumeInLitres = KeroseneLitersRequired ?? 0 });
+			}
 
 
 			BlueprintData bp = ScriptableObject.CreateInstance<BlueprintData>();
 
 			bp.name = "BP_" + Name;
 
-			bp.m_KeroseneLitersRequired = KeroseneLitersRequired ?? 0;
+			//bp.m_KeroseneLitersRequired = KeroseneLitersRequired ?? 0;
 			//bp.m_GunpowderKGRequired = GunpowderKGRequired ?? 0;
 
 			bp.m_RequiredGear = Utils.GetRequiredGearItems(RequiredGear);
 			bp.m_RequiredPowder = Utils.GetRequiredPowder(RequiredPowder);
-			//bp.m_RequiredLiquid = Utils.GetRequiredLiquid(RequiredLiquid);
+			bp.m_RequiredLiquid = Utils.GetRequiredLiquid(RequiredLiquid);
 
 			bp.m_CraftedResult = Addressables.LoadAssetAsync<GameObject>(CraftedResult).WaitForCompletion().GetComponent<GearItem>();
 			bp.m_CraftedResultCount = CraftedResultCount;
@@ -222,6 +223,12 @@ namespace CraftingRevisions
 			bp.m_RequiredCraftingLocation = Utils.TranslateEnumValue<CraftingLocation, CraftingLocation>(RequiredCraftingLocation);
 			bp.m_AppliedSkill = Utils.TranslateEnumValue<SkillType, SkillType>(AppliedSkill);
 			bp.m_ImprovedSkill = Utils.TranslateEnumValue<SkillType, SkillType>(ImprovedSkill);
+
+			if (!string.IsNullOrEmpty(RequiredTool))
+			{
+				bp.m_RequiredTool = Utils.GetToolsItem(RequiredTool);
+			}
+			bp.m_OptionalTools = Utils.GetToolsItems(OptionalTools);
 
 			bp.m_Locked = false;
 			bp.m_AppearsInStoryOnly = false;

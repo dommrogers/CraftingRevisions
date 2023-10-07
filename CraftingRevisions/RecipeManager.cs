@@ -33,7 +33,9 @@ namespace CraftingRevisions
 			{
 				ModUserRecipe recipe = ModUserRecipe.ParseFromJson(jsonUserRecipe);
 
-				bool isValid = recipe.Validate();
+				try
+				{
+					bool isValid = recipe.Validate();
 
 				if (isValid)
 				{
@@ -42,6 +44,11 @@ namespace CraftingRevisions
 					// store the processed recipe
 					__instance.AllRecipes.Add(newRecipe);
 					Logger.Log("Added Recipe " + recipe.RecipeName);
+				}
+				}
+				catch (Exception e)
+				{
+					Logger.LogError("Recipe Exception" + recipe.RecipeName + "\n" + e);
 				}
 			}
 
