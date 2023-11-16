@@ -77,7 +77,16 @@ namespace CraftingRevisions
 			{
 				Il2CppTLD.Gear.BlueprintData.RequiredGearItem rgi = new();
 				rgi.m_Item = Addressables.LoadAssetAsync<GameObject>(mrgi.Item).WaitForCompletion().GetComponent<GearItem>();
-				rgi.m_Count = mrgi.Count;
+                //Decide whether it is a weighted or counted gearItem
+                if (mrgi.Count >= 1)
+                {
+                    rgi.m_Count = mrgi.Count;
+				}
+				else
+                {
+                    rgi.m_Units = BlueprintData.RequiredGearItem.Units.Kilograms;
+                    rgi.m_Quantity = mrgi.Quantity;
+                }
 				list.Add(rgi);
 			}
 
@@ -97,7 +106,6 @@ namespace CraftingRevisions
 
 			return list.ToArray();
 		}
-
 		internal static Il2CppTLD.Gear.BlueprintData.RequiredPowder[] GetRequiredPowder(List<ModRequiredPowder> RequiredPowder)
 		{
 			var list = new List<Il2CppTLD.Gear.BlueprintData.RequiredPowder>();
