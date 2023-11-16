@@ -179,8 +179,8 @@ namespace CraftingRevisions
 					}
 					if (RequiredGearItem.Item == null)
 						sb.AppendLine($"RequiredGearItem[{i}].Item must be set on '{RecipeName}'");
-					if (RequiredGearItem.Count < 1)
-						sb.AppendLine($"RequiredGearItem[{i}].Count cannot be less than 1 on '{RecipeName}'");
+					if (RequiredGearItem.Count < 1 && RequiredGearItem.Quantity <= 0.0f)
+						sb.AppendLine($"RequiredGearItem[{i}].Count cannot be less than 1 or needs a RequiredGearItem[{i}].Quantity greater than 0.0 on '{RecipeName}'");
 					i++;
 				}
 			}
