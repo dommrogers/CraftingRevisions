@@ -102,7 +102,7 @@ namespace CraftingRevisions
 			bp.m_AppliedSkill = SkillType.Cooking;
 			bp.m_ImprovedSkill = SkillType.Cooking;
 
-			bp.m_proxy = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion();
+//			bp.m_proxy = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion();
 			bp.m_CanIncreaseRepairSkill = false;
 
 
