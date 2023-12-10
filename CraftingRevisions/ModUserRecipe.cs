@@ -65,7 +65,6 @@ namespace CraftingRevisions
 		{
 
 			AssetReferenceTexture2D ico = new AssetReferenceTexture2D(RecipeIcon);
-			ico.ReleaseAsset();
 
 			RecipeData recipe = ScriptableObject.CreateInstance<RecipeData>();
 			recipe.name = "MODRECIPE_"+RecipeName;
@@ -101,8 +100,9 @@ namespace CraftingRevisions
 			bp.m_RequiredCraftingLocation = CraftingLocation.Anywhere;
 			bp.m_AppliedSkill = SkillType.Cooking;
 			bp.m_ImprovedSkill = SkillType.Cooking;
+//			bp.m_CraftingIcon = new AssetReferenceTexture2D(RecipeIcon);
 
-//			bp.m_proxy = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion();
+			//			bp.m_proxy = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion();
 			bp.m_CanIncreaseRepairSkill = false;
 
 
@@ -165,7 +165,7 @@ namespace CraftingRevisions
 			}
 
 
-			if (BlueprintData.RequiredGear != null && BlueprintData.RequiredGear.Count > 0)
+			if (BlueprintData.RequiredGear != null)
 			{
 				int i = 0;
 				foreach (ModRequiredGearItem RequiredGearItem in BlueprintData.RequiredGear)
@@ -179,8 +179,12 @@ namespace CraftingRevisions
 					}
 					if (RequiredGearItem.Item == null)
 						sb.AppendLine($"RequiredGearItem[{i}].Item must be set on '{RecipeName}'");
-					if (RequiredGearItem.Count < 1)
-						sb.AppendLine($"RequiredGearItem[{i}].Count cannot be less than 1 on '{RecipeName}'");
+					if (RequiredGearItem.Count == 0 && RequiredGearItem.Quantity == 0)
+						sb.AppendLine($"RequiredGearItem[{i}].Count or RequiredGearItem[{i}].Quantity must be defined on '{RecipeName}'");
+					if (RequiredGearItem.Count > 0 && RequiredGearItem.Quantity > 0)
+						sb.AppendLine($"RequiredGearItem[{i}].Count and RequiredGearItem[{i}].Quantity are both > 0, only one must be used on '{RecipeName}'");
+					if (RequiredGearItem.Quantity > 0 && RequiredGearItem.Units == Il2CppTLD.Gear.BlueprintData.RequiredGearItem.Units.Count)
+						sb.AppendLine($"RequiredGearItem[{i}].Quantity is > 0  but RequiredGearItem[{i}].Units is set to Count, is this intended? on '{RecipeName}'");
 					i++;
 				}
 			}

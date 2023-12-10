@@ -78,6 +78,8 @@ namespace CraftingRevisions
 				Il2CppTLD.Gear.BlueprintData.RequiredGearItem rgi = new();
 				rgi.m_Item = Addressables.LoadAssetAsync<GameObject>(mrgi.Item).WaitForCompletion().GetComponent<GearItem>();
 				rgi.m_Count = mrgi.Count;
+				rgi.m_Quantity = mrgi.Quantity;
+				rgi.m_Units = mrgi.Units;
 				list.Add(rgi);
 			}
 

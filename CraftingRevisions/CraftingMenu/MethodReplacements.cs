@@ -24,6 +24,8 @@ namespace CraftingRevisions.CraftingMenu
 					return bpi.m_CraftedResult.IsGearType(GearType.Material);
 				case ModCraftingCategory.Food:
 					return bpi.m_CraftedResult.IsGearType(GearType.Food);
+				case ModCraftingCategory.Craftable:
+					return __instance.CanCraftBlueprint(bpi);
 				default:
 					return false;
 			}

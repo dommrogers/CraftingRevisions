@@ -8,6 +8,7 @@
 		Clothing,
 		Tools,
 		Materials,
-		Food
+		Food,
+		Craftable
 	}
 }
