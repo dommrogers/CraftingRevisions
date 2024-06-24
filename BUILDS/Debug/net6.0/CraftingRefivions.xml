@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CraftingRevisions</name>
+    </assembly>
+    <members>
+        <member name="P:CraftingRevisions.ModRequiredGearItem.Item">
+            <summary>
+            String value of the gear item
+            </summary>
+        </member>
+        <member name="P:CraftingRevisions.ModRequiredGearItem.Count">
+            <summary>
+            Count of how many are required
+            </summary>
+        </member>
+        <member name="P:CraftingRevisions.ModRequiredGearItem.Quantity">
+            <summary>
+            Count of how many are required
+            </summary>
+        </member>
+        <member name="P:CraftingRevisions.ModRequiredGearItem.Units">
+            <summary>
+            Unit type (Count/Kilograms)
+            </summary>
+        </member>
+        <member name="P:CraftingRevisions.ModUserBlueprintData.Name">
+            <summary>
+            optional name, used for debugging
+            </summary>
+        </member>
+        <member name="P:CraftingRevisions.ModUserRecipe.RecipeName">
+            <summary>
+            optional name, used for debugging
+            </summary>
+            
+        </member>
+        <member name="P:CraftingRevisions.ModUserRecipeBlueprintData.Name">
+            <summary>
+            optional name, used for debugging
+            </summary>
+        </member>
+    </members>
+</doc>
