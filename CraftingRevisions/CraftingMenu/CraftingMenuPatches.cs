@@ -84,14 +84,15 @@ namespace CraftingRevisions.CraftingMenu
 			}
 		}
 
-		//Purely a bugfix
+		//Purely a bugfix // Well .... maybe its not needed anymore. DZ was here :D
+		/*
 		[HarmonyPatch(typeof(CraftingRequirementQuantitySelect), "Enable")]
 		internal static class CraftingRequirementQuantitySelect_Enable
 		{
 			private static void Postfix(CraftingRequirementQuantitySelect __instance, BlueprintData bp)
 			{
-				float keroseneNeeded = bp.m_KeroseneLitersRequired;
-				float gunpowderNeeded = bp.m_GunpowderKGRequired;
+				float keroseneNeeded = bp.m_RequiredLiquid[0].m_Volume.m_Units;
+				float gunpowderNeeded = bp.m_RequiredPowder[0].m_Quantity.m_Units;
 				if (keroseneNeeded > 0)
 				{
 					LiquidType kerosene = Addressables.LoadAssetAsync<LiquidType>("LIQUID_Kerosene").WaitForCompletion();
@@ -104,17 +105,19 @@ namespace CraftingRevisions.CraftingMenu
 				//	if (__instance.m_Maximum > maxGunpowderUnits) __instance.m_Maximum = maxGunpowderUnits;
 				//}
 			}
-		}
+		}*/
 
-
-		[HarmonyPatch(typeof(BlueprintDisplayItem), nameof(BlueprintDisplayItem.Setup), new Type[] { typeof(Panel_Crafting), typeof(BlueprintData) })]
+        //  Setup(BlueprintData bpi, bool canCraftBlueprint)
+        [HarmonyPatch(typeof(BlueprintDisplayItem), nameof(BlueprintDisplayItem.Setup), new Type[] { typeof(BlueprintData), typeof(bool) })]
 		internal static class BlueprintDisplayItem_Setup
 		{
-			private static void Prefix(BlueprintDisplayItem __instance, Panel_Crafting panel, BlueprintData bpi, ref bool __runOriginal)
+			private static void Prefix(BlueprintDisplayItem __instance, BlueprintData bpi, ref bool __runOriginal)
 			{
 				__runOriginal = false;
 
-				__instance.m_BlueprintData= bpi;
+				Panel_Crafting panel = InterfaceManager.m_Instance.m_Panel_Crafting;
+
+                __instance.m_BlueprintData= bpi;
 				__instance.m_CanCraftBlueprint = panel.CanCraftBlueprint(bpi);
 				string text = bpi.m_CraftedResult.name.Replace("GEAR_", "ico_CraftItem__");
 				__instance.m_Icon.mainTexture = Addressables.LoadAssetAsync<Texture2D>(text).WaitForCompletion();

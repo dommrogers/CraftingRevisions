@@ -8,6 +8,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Il2CppTLD.Gear;
+using Il2CppTLD.IntBackedUnit;
 
 namespace CraftingRevisions
 {
@@ -78,8 +79,9 @@ namespace CraftingRevisions
 				Il2CppTLD.Gear.BlueprintData.RequiredGearItem rgi = new();
 				rgi.m_Item = Addressables.LoadAssetAsync<GameObject>(mrgi.Item).WaitForCompletion().GetComponent<GearItem>();
 				rgi.m_Count = mrgi.Count;
-				rgi.m_Quantity = mrgi.Quantity;
-				rgi.m_Units = mrgi.Units;
+				//rgi.m_Quantity = mrgi.Quantity;
+                rgi.m_Weight = new ItemWeight((long)mrgi.Quantity);
+                rgi.m_Units = mrgi.Units;
 				list.Add(rgi);
 			}
 
@@ -93,7 +95,7 @@ namespace CraftingRevisions
 			{
 				Il2CppTLD.Gear.BlueprintData.RequiredLiquid rl = new();
 				rl.m_Liquid = Addressables.LoadAssetAsync<LiquidType>(mrl.Liquid).WaitForCompletion();
-				rl.m_VolumeInLitres = mrl.VolumeInLitres;
+				rl.m_Volume = new ItemLiquidVolume((long)mrl.VolumeInLitres);
 				list.Add(rl);
 			}
 
@@ -107,7 +109,7 @@ namespace CraftingRevisions
 			{
 				Il2CppTLD.Gear.BlueprintData.RequiredPowder rp = new();
 				rp.m_Powder = Addressables.LoadAssetAsync<PowderType>(mrp.Powder).WaitForCompletion();
-				rp.m_QuantityInKilograms = mrp.QuantityInKilograms;
+				rp.m_Quantity = new ItemWeight((long)mrp.QuantityInKilograms);
 				list.Add(rp);
 			}
 

@@ -110,8 +110,10 @@ namespace CraftingRevisions.CraftingMenu
 			else
 			{
 				float axisScrollWheel = InputManager.GetAxisScrollWheel(__instance);
-				int numBlueprintDisplays = __instance.m_BlueprintDisplays.Count; // 7
+				int numBlueprintDisplays = __instance.m_Blueprints.Count; // 7
 				int numFilteredItems = __instance.m_FilteredBlueprints.Count; // total number of blueprints in that filtered list
+
+				/*
 				if (!Il2Cpp.Utils.IsZero(axisScrollWheel, 0.0001f) && numFilteredItems > numBlueprintDisplays)
 				{
 					int maxChange = Mathf.Clamp(Settings.instance.numCraftingSteps, 1, numBlueprintDisplays);
@@ -126,7 +128,7 @@ namespace CraftingRevisions.CraftingMenu
 						__instance.RefreshSelectedBlueprint();
 					}
 					return;
-				}
+				}*/
 				menuMovementVertical = Il2Cpp.Utils.GetMenuMovementVertical(__instance, true, true);
 				if (__instance.m_CurrentNavArea != Panel_Crafting.NavArea.Blueprint)
 				{
@@ -135,7 +137,7 @@ namespace CraftingRevisions.CraftingMenu
 			}
 			if (!Il2Cpp.Utils.IsZero(menuMovementVertical, 0.0001f))
 			{
-				__instance.HandleVerticalNavigation(menuMovementVertical);
+				//__instance.HandleVerticalNavigation(menuMovementVertical);
 			}
 		}
 	}
