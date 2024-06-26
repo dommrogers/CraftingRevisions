@@ -36,6 +36,11 @@ namespace CraftingRevisions
 
 			foreach (string AllowedCookingPot in AllowedCookingPots)
 			{
+				if(AllowedCookingPot == "GEAR_RecycledCan" || AllowedCookingPot == null)
+				{
+					list.Add(null);
+					continue;
+				}
 //				Logger.LogBlue("GetAllowedCookingPots " + AllowedCookingPot);
 				GameObject go = Addressables.LoadAssetAsync<GameObject>(AllowedCookingPot).WaitForCompletion();
 				if (go != null)

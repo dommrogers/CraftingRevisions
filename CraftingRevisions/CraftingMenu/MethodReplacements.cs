@@ -130,10 +130,10 @@ namespace CraftingRevisions.CraftingMenu
 					return;
 				}*/
 				menuMovementVertical = Il2Cpp.Utils.GetMenuMovementVertical(__instance, true, true);
-				if (__instance.m_CurrentNavArea != Panel_Crafting.NavArea.Blueprint)
-				{
-					__instance.SetNavigationArea(Panel_Crafting.NavArea.Blueprint);
-				}
+				//if (__instance.m_CurrentNavArea != Panel_Crafting.NavArea.Blueprint)
+				//{
+				//	__instance.SetNavigationArea(Panel_Crafting.NavArea.Blueprint);
+				//}
 			}
 			if (!Il2Cpp.Utils.IsZero(menuMovementVertical, 0.0001f))
 			{

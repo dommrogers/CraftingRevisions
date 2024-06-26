@@ -71,17 +71,28 @@ namespace CraftingRevisions
 
 		}
 
-			internal static Il2CppTLD.Gear.BlueprintData.RequiredGearItem[] GetRequiredGearItems(List<ModRequiredGearItem> RequiredGear)
+		internal static Il2CppTLD.Gear.BlueprintData.RequiredGearItem[] GetRequiredGearItems(List<ModRequiredGearItem> RequiredGear)
 		{
 			var list = new List<Il2CppTLD.Gear.BlueprintData.RequiredGearItem>();
 			foreach (ModRequiredGearItem mrgi in RequiredGear)
 			{
 				Il2CppTLD.Gear.BlueprintData.RequiredGearItem rgi = new();
 				rgi.m_Item = Addressables.LoadAssetAsync<GameObject>(mrgi.Item).WaitForCompletion().GetComponent<GearItem>();
-				rgi.m_Count = mrgi.Count;
+
+				if (mrgi.Units == BlueprintData.RequiredGearItem.Units.Count)
+				{
+					rgi.m_Count = mrgi.Count;
+					rgi.m_Units = BlueprintData.RequiredGearItem.Units.Count;
+				}
+
+				if (mrgi.Units == BlueprintData.RequiredGearItem.Units.Kilograms)
+				{
+					rgi.m_Weight = ItemWeight.FromKilograms(mrgi.Quantity);
+					rgi.m_Units = BlueprintData.RequiredGearItem.Units.Kilograms;
+				}
+
 				//rgi.m_Quantity = mrgi.Quantity;
-                rgi.m_Weight = new ItemWeight((long)mrgi.Quantity);
-                rgi.m_Units = mrgi.Units;
+				//rgi.m_Weight = new ItemWeight((long)mrgi.Quantity);
 				list.Add(rgi);
 			}
 
@@ -95,7 +106,7 @@ namespace CraftingRevisions
 			{
 				Il2CppTLD.Gear.BlueprintData.RequiredLiquid rl = new();
 				rl.m_Liquid = Addressables.LoadAssetAsync<LiquidType>(mrl.Liquid).WaitForCompletion();
-				rl.m_Volume = new ItemLiquidVolume((long)mrl.VolumeInLitres);
+				rl.m_Volume = ItemLiquidVolume.FromLiters(mrl.VolumeInLitres);
 				list.Add(rl);
 			}
 
@@ -109,7 +120,7 @@ namespace CraftingRevisions
 			{
 				Il2CppTLD.Gear.BlueprintData.RequiredPowder rp = new();
 				rp.m_Powder = Addressables.LoadAssetAsync<PowderType>(mrp.Powder).WaitForCompletion();
-				rp.m_Quantity = new ItemWeight((long)mrp.QuantityInKilograms);
+				rp.m_Quantity = ItemWeight.FromKilograms(mrp.QuantityInKilograms);
 				list.Add(rp);
 			}
 

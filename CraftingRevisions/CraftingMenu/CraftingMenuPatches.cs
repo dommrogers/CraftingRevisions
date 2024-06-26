@@ -33,17 +33,17 @@ namespace CraftingRevisions.CraftingMenu
 			}
 		}
 
-		[HarmonyPatch(typeof(Panel_Crafting), "HandleInput")]
-		internal static class Panel_Crafting_HandleInput
-		{
-			private static bool Prefix(Panel_Crafting __instance, ref bool __runOriginal)
-			{
-				if (!__runOriginal)
-					MelonLogger.Error("Another mod tried to disable Panel_Crafting.HandleInput");
-				MethodReplacements.HandleInput(__instance);
-				return false;
-			}
-		}
+		//[HarmonyPatch(typeof(Panel_Crafting), "HandleInput")]
+		//internal static class Panel_Crafting_HandleInput
+		//{
+		//	private static bool Prefix(Panel_Crafting __instance, ref bool __runOriginal)
+		//	{
+		//		if (!__runOriginal)
+		//			MelonLogger.Error("Another mod tried to disable Panel_Crafting.HandleInput");
+		//		MethodReplacements.HandleInput(__instance);
+		//		return false;
+		//	}
+		//}
 
 		[HarmonyPatch(typeof(Panel_Crafting), "Initialize")]
 		internal static class Panel_Crafting_Start

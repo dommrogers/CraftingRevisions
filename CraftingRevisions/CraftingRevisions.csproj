@@ -27,7 +27,7 @@
 	<!--This is for NuGet.-->
 	<PropertyGroup>
 		<Authors>STBlade</Authors>
-		<Version>2.2.3</Version>
+		<Version>2.3.1</Version>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<PackageId>STBlade.Modding.TLD.CraftingRevisions</PackageId>
 		<PackageTags>MelonLoader Modding TLD Json Blueprint Crafting Utility Mod</PackageTags>
@@ -41,8 +41,8 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<DocumentationFile>bin\CraftingRefivions.xml</DocumentationFile>
 		<NoWarn>1591</NoWarn>
-		<PackageOutputPath>W:\Unity\repos\TLD\CraftingRevisions\BUILDS</PackageOutputPath>
-		<BaseOutputPath>W:\Unity\repos\TLD\CraftingRevisions\BUILDS</BaseOutputPath>
+		<BaseOutputPath>C:\Program Files (x86)\Steam\steamapps\common\TheLongDark\Mods\_BUILDS\</BaseOutputPath>
+		<BaseOutputPath>C:\Program Files (x86)\Steam\steamapps\common\TheLongDark\Mods\_BUILDS\</BaseOutputPath>
 	</PropertyGroup>
 
 	<!--This is the of packages that the mod references.-->
