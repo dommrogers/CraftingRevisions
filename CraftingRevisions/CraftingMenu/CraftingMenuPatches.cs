@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Il2Cpp;
+using Il2CppTLD.AddressableAssets;
 using Il2CppTLD.Gear;
 using MelonLoader;
 using UnityEngine;
@@ -106,28 +107,6 @@ namespace CraftingRevisions.CraftingMenu
 				//}
 			}
 		}*/
-
-        //  Setup(BlueprintData bpi, bool canCraftBlueprint)
-        [HarmonyPatch(typeof(BlueprintDisplayItem), nameof(BlueprintDisplayItem.Setup), new Type[] { typeof(BlueprintData), typeof(bool) })]
-		internal static class BlueprintDisplayItem_Setup
-		{
-			private static void Prefix(BlueprintDisplayItem __instance, BlueprintData bpi, ref bool __runOriginal)
-			{
-				__runOriginal = false;
-
-				Panel_Crafting panel = InterfaceManager.m_Instance.m_Panel_Crafting;
-
-                __instance.m_BlueprintData= bpi;
-				__instance.m_CanCraftBlueprint = panel.CanCraftBlueprint(bpi);
-				string text = bpi.m_CraftedResult.name.Replace("GEAR_", "ico_CraftItem__");
-				__instance.m_Icon.mainTexture = Addressables.LoadAssetAsync<Texture2D>(text).WaitForCompletion();
-				__instance.m_Icon.enabled = true;
-				__instance.m_DisplayName.text = bpi.GetDisplayedNameWithCount();
-				__instance.m_Available.enabled = __instance.m_CanCraftBlueprint;
-				__instance.m_Unavailable.enabled = !__instance.m_CanCraftBlueprint;
-				__instance.m_Background.color = __instance.m_Normal;
-				__instance.m_Root.color = Il2Cpp.Utils.GetColorWithAlpha(__instance.m_Root.color, __instance.m_CanCraftBlueprint ? 1f : __instance.m_Disabled.a);
-			}
-		}
+        
 	}
 }

@@ -22,6 +22,7 @@ namespace CraftingRevisions
 		public List<string>? OptionalTools { get; set; } = new();
 		public string? CraftedResult { get; set; } = null;
 		public int CraftedResultCount { get; set; } = 0;
+		public string CraftingIcon => CraftedResult.Replace("GEAR_", "ico_CraftItem__");
 		public int DurationMinutes { get; set; } = 0;
 		public string? CraftingAudio { get; set; } = null;
 		public float? KeroseneLitersRequired { get; set; } = null;
@@ -216,7 +217,7 @@ namespace CraftingRevisions
 
 			bp.m_DurationMinutes = DurationMinutes;
 			bp.m_CraftingAudio = Utils.MakeAudioEvent(CraftingAudio);
-			//bp.m_CraftingIcon = new AssetReferenceTexture2D(null);
+			bp.m_CraftingIcon = new AssetReferenceTexture2D(CraftingIcon);
 
 			bp.m_RequiresLight = RequiresLight;
 			bp.m_RequiresLitFire = RequiresLitFire;

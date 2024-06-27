@@ -22,7 +22,7 @@ namespace CraftingRevisions
 		public string? RecipeName { get; set; } = null;
 		public string? RecipeShortName { get; set; } = null;
 		public string? RecipeDescription { get; set; } = null;
-		public string? RecipeIcon { get; set; } = null;
+//		public string? RecipeIcon { get; set; } = null;
 		public int RequiredSkillLevel { get; set; } = 1;
 		public List<string> AllowedCookingPots { get; set; } = new();
 		public ModUserRecipeBlueprintData BlueprintData { get; set; } = new();
@@ -69,18 +69,17 @@ namespace CraftingRevisions
 		public RecipeData GetRecipeData()
 		{
 
-			AssetReferenceTexture2D ico = new AssetReferenceTexture2D(RecipeIcon);
-
 			RecipeData recipe = ScriptableObject.CreateInstance<RecipeData>();
 			recipe.name = "MODRECIPE_"+RecipeName;
 			recipe.m_RecipeName = new LocalizedString() { m_LocalizationID = RecipeName };
 			recipe.m_RecipeShortName = new LocalizedString() { m_LocalizationID = RecipeShortName };
 			recipe.m_RecipeDescription = new LocalizedString() { m_LocalizationID = RecipeDescription };
-			recipe.m_RecipeIcon = ico;
 			recipe.m_UnlockRule = RecipeData.UnlockType.Unlocked;
 			recipe.m_RequiredSkillLevel = RequiredSkillLevel;
 			recipe.m_AllowedCookingPots = GetAllowedCookingPots();
 			recipe.m_DishBlueprint = GetBlueprintData();
+			recipe.m_RecipeIcon = recipe.m_DishBlueprint.m_CraftingIcon;
+
 			return recipe;
 		}
 
@@ -89,13 +88,17 @@ namespace CraftingRevisions
 			ModUserRecipeBlueprintData mubd = BlueprintData;
 			BlueprintData bp = ScriptableObject.CreateInstance<BlueprintData>();
 
+			GameObject _res = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion();
+			GearItem _resGearItem = _res.GetComponent<GearItem>();
+			Cookable _resCookable = _res.GetComponent<Cookable>();
+
 			bp.name = "MOD_BLUEPRINT_" + RecipeName;
 
 			bp.m_RequiredGear = Utils.GetRequiredGearItems(BlueprintData.RequiredGear);
 			bp.m_RequiredPowder = Utils.GetRequiredPowder(BlueprintData.RequiredPowder);
 			bp.m_RequiredLiquid = Utils.GetRequiredLiquid(BlueprintData.RequiredLiquid);
 
-			bp.m_CraftedResult = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion().GetComponent<GearItem>();
+			bp.m_CraftedResult = _resGearItem;
 			bp.m_CraftedResultCount = mubd.CraftedResultCount;
 			bp.m_DurationMinutes = mubd.DurationMinutes;
 			bp.m_CraftingAudio = Utils.MakeAudioEvent(mubd.CraftingAudio);
@@ -105,7 +108,9 @@ namespace CraftingRevisions
 			bp.m_RequiredCraftingLocation = CraftingLocation.Anywhere;
 			bp.m_AppliedSkill = SkillType.Cooking;
 			bp.m_ImprovedSkill = SkillType.Cooking;
-//			bp.m_CraftingIcon = new AssetReferenceTexture2D(RecipeIcon);
+			if (_resCookable) {
+				bp.m_CraftingIcon = new AssetReferenceTexture2D(_resCookable.m_CookedPrefab.name.Replace("GEAR_","ico_GearItem__"));
+			}
 
 			//			bp.m_proxy = Addressables.LoadAssetAsync<GameObject>(mubd.CraftedResult).WaitForCompletion();
 			bp.m_CanIncreaseRepairSkill = false;
