@@ -119,7 +119,12 @@ namespace CraftingRevisions.CraftingMenu
 
                 __instance.m_BlueprintData= bpi;
 				__instance.m_CanCraftBlueprint = panel.CanCraftBlueprint(bpi);
-				string text = bpi.m_CraftedResult.name.Replace("GEAR_", "ico_CraftItem__");
+				
+				// For some reason Hinterland decided to name the GEAR item differently from it's CraftingItem icon, so it wasn't displaying.
+				// This will fix that, but if other items pop-up in the future we will have to reconsider this approach.
+				// Deadman was here :)
+				string text = bpi.m_CraftedResult.name is "GEAR_CougarWrap" ? "ico_CraftItem__CougarHideWrap" : bpi.m_CraftedResult.name.Replace("GEAR_", "ico_CraftItem__");
+				
 				__instance.m_Icon.mainTexture = Addressables.LoadAssetAsync<Texture2D>(text).WaitForCompletion();
 				__instance.m_Icon.enabled = true;
 				__instance.m_DisplayName.text = bpi.GetDisplayedNameWithCount();
