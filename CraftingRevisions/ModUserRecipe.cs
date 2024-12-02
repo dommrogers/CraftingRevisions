@@ -98,7 +98,8 @@ namespace CraftingRevisions
 			bp.m_RequiredPowder = Utils.GetRequiredPowder(BlueprintData.RequiredPowder);
 			bp.m_RequiredLiquid = Utils.GetRequiredLiquid(BlueprintData.RequiredLiquid);
 
-			bp.m_CraftedResult = _resGearItem;
+			bp.m_CraftingResultType = CraftingResult.StandardGear;
+			bp.m_CraftedResultGear = _resGearItem;
 			bp.m_CraftedResultCount = mubd.CraftedResultCount;
 			bp.m_DurationMinutes = mubd.DurationMinutes;
 			bp.m_CraftingAudio = Utils.MakeAudioEvent(mubd.CraftingAudio);

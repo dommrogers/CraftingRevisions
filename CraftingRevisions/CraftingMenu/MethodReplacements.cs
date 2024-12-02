@@ -13,19 +13,21 @@ namespace CraftingRevisions.CraftingMenu
 				case ModCraftingCategory.All:
 					return true;
 				case ModCraftingCategory.FireStarting:
-					return bpi.m_CraftedResult.IsGearType(GearType.Firestarting);
+					return bpi.m_CraftingResultType == CraftingResult.StandardGear && bpi.m_CraftedResultGear.IsGearType(GearType.Firestarting);
 				case ModCraftingCategory.FirstAid:
-					return bpi.m_CraftedResult.IsGearType(GearType.FirstAid);
+					return bpi.m_CraftingResultType == CraftingResult.StandardGear &&  bpi.m_CraftedResultGear.IsGearType(GearType.FirstAid);
 				case ModCraftingCategory.Clothing:
-					return bpi.m_CraftedResult.IsGearType(GearType.Clothing);
+					return bpi.m_CraftingResultType == CraftingResult.StandardGear &&  bpi.m_CraftedResultGear.IsGearType(GearType.Clothing);
 				case ModCraftingCategory.Tools:
-					return bpi.m_CraftedResult.IsGearType(GearType.Tool) || bpi.m_CraftedResult.IsGearType(GearType.Other);
+					return bpi.m_CraftingResultType == CraftingResult.StandardGear && (bpi.m_CraftedResultGear.IsGearType(GearType.Tool) || bpi.m_CraftedResultGear.IsGearType(GearType.Other));
+				case ModCraftingCategory.Decoration:
+					return bpi.m_CraftingResultType == CraftingResult.Decoration;
 				case ModCraftingCategory.Materials:
-					return bpi.m_CraftedResult.IsGearType(GearType.Material);
+					return bpi.m_CraftingResultType == CraftingResult.StandardGear && bpi.m_CraftedResultGear.IsGearType(GearType.Material);
 				case ModCraftingCategory.Food:
-					return bpi.m_CraftedResult.IsGearType(GearType.Food);
-				case ModCraftingCategory.Craftable:
-					return __instance.CanCraftBlueprint(bpi);
+					return bpi.m_CraftingResultType == CraftingResult.StandardGear && bpi.m_CraftedResultGear.IsGearType(GearType.Food);
+//				case ModCraftingCategory.Craftable:
+//					return __instance.CanCraftBlueprint(bpi);
 				default:
 					return false;
 			}

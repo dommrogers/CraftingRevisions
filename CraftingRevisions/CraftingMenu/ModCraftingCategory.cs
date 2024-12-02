@@ -7,8 +7,8 @@
 		FirstAid,
 		Clothing,
 		Tools,
+		Decoration,
 		Materials,
-		Food,
-		Craftable
+		Food
 	}
 }

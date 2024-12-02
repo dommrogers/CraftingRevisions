@@ -205,6 +205,9 @@ namespace CraftingRevisions
 
 			bp.name = "BP_" + Name;
 
+			bp.m_XPModesToDisable = new();
+			bp.m_UsesPhoto = false;
+
 			//bp.m_KeroseneLitersRequired = KeroseneLitersRequired ?? 0;
 			//bp.m_GunpowderKGRequired = GunpowderKGRequired ?? 0;
 
@@ -212,7 +215,8 @@ namespace CraftingRevisions
 			bp.m_RequiredPowder = Utils.GetRequiredPowder(RequiredPowder);
 			bp.m_RequiredLiquid = Utils.GetRequiredLiquid(RequiredLiquid);
 
-			bp.m_CraftedResult = Addressables.LoadAssetAsync<GameObject>(CraftedResult).WaitForCompletion().GetComponent<GearItem>();
+			bp.m_CraftingResultType = CraftingResult.StandardGear;
+			bp.m_CraftedResultGear = Addressables.LoadAssetAsync<GameObject>(CraftedResult).WaitForCompletion().GetComponent<GearItem>();
 			bp.m_CraftedResultCount = CraftedResultCount;
 
 			bp.m_DurationMinutes = DurationMinutes;

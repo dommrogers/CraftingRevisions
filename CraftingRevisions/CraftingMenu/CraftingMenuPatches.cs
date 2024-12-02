@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Il2Cpp;
 using Il2CppTLD.AddressableAssets;
 using Il2CppTLD.Gear;
@@ -56,31 +56,31 @@ namespace CraftingRevisions.CraftingMenu
 				UIButton toolsButton = new();
 				foreach (UIButton button in buttonList)
 				{
-					if (button.name.ToLower().Contains("tool"))
+					if (button.name.ToLower().Contains("deco"))
 					{
 						toolsButton = button;
 					}
 				}
 				UIButton materialButton = toolsButton.Instantiate();
 				UIButton foodButton = toolsButton.Instantiate();
-				UIButton craftableButton = toolsButton.Instantiate();
+				//				UIButton craftableButton = toolsButton.Instantiate();
 				foodButton.name = "Button_Food";
 				materialButton.name = "Button_Material";
-				craftableButton.name = "Button_Craftable";
+				//				craftableButton.name = "Button_Craftable";
 				EventDelegate.Set(materialButton.onClick, new System.Action(() => categoryNavigation.OnNavigationChanged(materialButton)));
 				EventDelegate.Set(foodButton.onClick, new System.Action(() => categoryNavigation.OnNavigationChanged(foodButton)));
-				EventDelegate.Set(craftableButton.onClick, new System.Action(() => categoryNavigation.OnNavigationChanged(craftableButton)));
-				toolsButton.Move(0, -62, 0);
+				//				EventDelegate.Set(craftableButton.onClick, new System.Action(() => categoryNavigation.OnNavigationChanged(craftableButton)));
+				foodButton.Move(0, -62, 0);
 				materialButton.Move(0, -124, 0);
-				craftableButton.transform.localPosition = new Vector3(0f,64f,0f);
-				craftableButton.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+				//				craftableButton.transform.localPosition = new Vector3(0f,64f,0f);
+				//				craftableButton.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 				buttonList.Add(materialButton);
 				buttonList.Add(foodButton);
-				buttonList.Add(craftableButton);
+				//				buttonList.Add(craftableButton);
 
 				materialButton.SetSpriteName("ico_crafting");
 				foodButton.SetSpriteName("ico_Radial_food");
-				craftableButton.SetSpriteName("ico_map");
+				//				craftableButton.SetSpriteName("ico_map");
 				buttonList[0].SetSpriteName("ico_Radial_pack");
 			}
 		}
@@ -107,6 +107,6 @@ namespace CraftingRevisions.CraftingMenu
 				//}
 			}
 		}*/
-        
+
 	}
 }
